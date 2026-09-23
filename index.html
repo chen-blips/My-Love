@@ -52,41 +52,38 @@
         </div>
     </div>
 
-    <!-- Completely invisible container layer for the background streaming player -->
-    <div id="ytPlayer" style="position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;"></div>
+    <!-- Web-safe local audio player initialization -->
+    <audio id="bgMusic" loop>
+        <source src="tahanan.mp3" type="audio/mpeg">
+    </audio>
 
     <!-- JavaScript mechanics -->
     <script>
-        // 1. Core script injection engine to fetch and construct the YouTube background framework
-        var tag = document.createElement('script');
-        tag.src = "https://youtube.com";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        var player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('ytPlayer', {
-                height: '0',
-                width: '0',
-                videoId: '-6gNHeEofjA', // 👈 FIXED: Direct unique Video ID string for "Tahanan"
-                playerVars: {
-                    'autoplay': 0,
-                    'loop': 1,
-                    'playlist': '-6gNHeEofjA', // 👈 FIXED: Matches to loop the audio stream seamlessly 
-                    'controls': 0,
-                    'disablekb': 1,
-                    'modestbranding': 1
-                },
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
+        const music = document.getElementById('bgMusic');
+        
+        // Locked at 1.0 maximum system boundary scale
+        if (music) {
+            music.volume = 1.0; 
         }
 
-        function onPlayerReady(event) {
-            // Set starting background volume scale (0 to 100)
-            player.setVolume(80); 
-        }
+        // ADVANCED AUTO-UNLOCK ENGINE: Captures ANY tiny cursor hover or movement across the screen to activate audio instantly
+        const forcePlayAudio = () => {
+            if (music && music.paused) {
+                music.play()
+                    .then(() => {
+                        // Clears listeners once background stream successfully starts playing
+                        window.removeEventListener('mousemove', forcePlayAudio);
+                        window.removeEventListener('click', forcePlayAudio);
+                        window.removeEventListener('touchstart', forcePlayAudio);
+                    })
+                    .catch(err => console.log("Waiting for more prominent movement event...", err));
+            }
+        };
+
+        // Activates trackers across all desktop and phone screens layout interfaces
+        window.addEventListener('mousemove', forcePlayAudio);
+        window.addEventListener('click', forcePlayAudio);
+        window.addEventListener('touchstart', forcePlayAudio);
 
         function dodgeNo() {
             const noBtn = document.getElementById('noBtn');
@@ -96,15 +93,18 @@
             noBtn.style.position = 'fixed';
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
+            
+            // Running button acts as an immediate second player layer backup unlock trigger
+            forcePlayAudio();
         }
 
         function selectYes() {
             const overlay = document.getElementById('quizOverlay');
             const container = document.getElementById('envelopeContainer');
-    
-            // 2. Fires up the hidden YouTube audio track stream right as she taps "Yes"
-            if (player && typeof player.playVideo === 'function') {
-                player.playVideo();
+            
+            // Re-enforces standard terminal play execution on button tap
+            if (music && music.paused) {
+                music.play().catch(err => console.log("Final check playback block:", err));
             }
     
             overlay.style.opacity = '0';
