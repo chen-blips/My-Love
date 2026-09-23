@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="chiikawa logo.png">
+    <title>My Love</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Floating Background Layer -->
+    <div class="background-effects">
+        <div class="heart h1"></div>
+        <div class="heart h2"></div>
+        <div class="heart h3"></div>
+        <div class="chiikawa c1"></div>
+        <div class="chiikawa c2"></div>
+    </div>
+
+    <!-- NEW STRUCTURAL ANCHOR: Locks coordinates tight so it can never drop on load -->
+    <div class="main-display-wrapper">
+        <!-- Main Interface Container -->
+        <div class="envelope-container" id="envelopeContainer">
+            <!-- Text line safely locked on top of envelope -->
+            <div class="bottom-text">Happy 6th Monthsary, Love!!!</div>
+
+            <div class="envelope-wrapper">
+                <div class="envelope">
+                    <div class="lid"></div>
+                    <div class="stamp"></div>
+                    <div class="body"></div>
+                </div>
+
+                <div class="letter">
+                    <h3>To My Love,</h3>
+                    <p>Haiii, Loveee!! Kamusta ikaw, love ko? I know I'm not good at surprise and letters, this letter maybe short but I hope this makes you happy hehe. I miss our little bondings na, lovee, lagi ko naman miss mga ginagawa natin pero mas miss na miss na kita, love. Going back sa mga araw na naglalandian tayo dati, arghh sobrang gusto ko yon kahit alam kong walang label, mahirap kaya maging torpe, gusto ko umamin pero hindi ko maamin sayo yung nararamdaman ko nun, antanga ko that time kasi pinalipas ko yung panahon nayun and malulumbay ako after na magkaron ka ng someone HAHAHAHAHAA. Everything that we did dati has meaning sakin, I know hindi ako umamin and hinayaan ko lang na mawalan tayo communication dati, sobra din akong nanghinayang nun, love, kaya I am so happy kasi tama din pala na nag first move ulit "why hate ang feb?" HAHAHAHAHHAAH, aghhh, cutieee mo. Everytime na nafefeel mo if maingay ka while nagdadaldal ikaw sakin, don't bother kasi your voice is music to my ears, I do really love na pakinggan mga kwento mo, love. I love every yap mo, I love every tampo mo sa maliliit na bagay, hehe, I love how you make me feel that I'm your partner, I love how you understand me, I love you ng sobrang sobra, love. Magulo man yung letter ko for you, but this letter means a lot. I do appreciate lahat ng time na nabibigay mo sakin, love, lahat ng gifts and incoming gifts, lahat ng efforts, and how you make me feel loved. I love everything you do, love. This day, I just want us to be happy and enjoy things na gagawin natin, mwehehehe. I'm happy that we're on 6th months na and sana tumagal pa tayo until we have our own life together. I do really really love you, Mahal ko. I know napapansin mo to but I never called you by your name or nickname since naging friends tayo before, but to be sincere and for you to know na ikaw ang tinutukoy ko sa lahat ng to, Kimberly, you are my everything, ansaya saya ko na ikaw lagi ang kasama ko sa lahat. I know hindi pa tayo nagkikita personally pero everything we do, I always think na katabi kita, kasama kita, hawak hawak kita. I hope this day makes you happy ng sobrang sobra, this is my little surprise letter, hindi pa kasi kita ma surprise na kakatok ako sa inyo then makikita mo ako jan, mwehehehe. Pero yun nga, I always care for you, love, everything you do always have value and it means to me a lot, love. I'm so proud of you palagi and I'm always here sa tabi mo. Wag tayo magaaway ngayon ha, love. We enjoy our day together! I love you so muchiieeee muchhh, Love!!</p>
+                    <div class="letter-footer">MWAAA MWAAAA!!! ❤️</div>
+                    <img src="ourpic.png" alt="Our pic" class="letter-image">
+                </div> 
+            </div>
+        </div>
+
+        <!-- The Love Quiz sits safely at its static layout base inside the center panel wrapper -->
+        <div class="quiz-overlay" id="quizOverlay">
+            <div class="quiz-box">
+                <h2 id="quizQuestion">Love, do you love me?</h2>
+                <div class="quiz-buttons">
+                    <button class="quiz-btn yes-btn" onclick="selectYes()">Yes! 😍</button>
+                    <button class="quiz-btn no-btn" id="noBtn" onmouseover="dodgeNo()" onclick="dodgeNo()">No 💔</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Web-safe local audio player initialization -->
+    <audio id="bgMusic" loop>
+        <source src="tahanan.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- JavaScript mechanics -->
+    <script>
+        const music = document.getElementById('bgMusic');
+        
+        // Locked at 1.0 maximum system boundary scale
+        if (music) {
+            music.volume = 0.1; 
+        }
+
+        // ADVANCED AUTO-UNLOCK ENGINE: Captures ANY tiny cursor hover or movement across the screen to activate audio instantly
+        const forcePlayAudio = () => {
+            if (music && music.paused) {
+                music.play()
+                    .then(() => {
+                        // Clears listeners once background stream successfully starts playing
+                        window.removeEventListener('mousemove', forcePlayAudio);
+                        window.removeEventListener('click', forcePlayAudio);
+                        window.removeEventListener('touchstart', forcePlayAudio);
+                    })
+                    .catch(err => console.log("Waiting for more prominent movement event...", err));
+            }
+        };
+
+        // Activates trackers across all desktop and phone screens layout interfaces
+        window.addEventListener('mousemove', forcePlayAudio);
+        window.addEventListener('click', forcePlayAudio);
+        window.addEventListener('touchstart', forcePlayAudio);
+
+        function dodgeNo() {
+            const noBtn = document.getElementById('noBtn');
+            const randomX = Math.floor(Math.random() * (window.innerWidth - 160));
+            const randomY = Math.floor(Math.random() * (window.innerHeight - 80));
+    
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            // Running button acts as an immediate second player layer backup unlock trigger
+            forcePlayAudio();
+        }
+
+        function selectYes() {
+            const overlay = document.getElementById('quizOverlay');
+            const container = document.getElementById('envelopeContainer');
+            
+            // Re-enforces standard terminal play execution on button tap
+            if (music && music.paused) {
+                music.play().catch(err => console.log("Final check playback block:", err));
+            }
+    
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+            container.classList.add('active');
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 400); 
+        }
+    </script>
+</body>
+</html>
