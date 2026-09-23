@@ -1,0 +1,358 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5d5f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Clean modern font */
+  overflow: hidden;
+  position: relative;
+}
+
+/* --- UPDATED: LOWER OPACITY BACKGROUND DECORATIONS --- */
+.background-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.25; /* LESSENED OPACITY: Makes floating elements super soft and clean */
+}
+
+/* Standard properties for hearts */
+.heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #ff6b81;
+  transform: rotate(-45deg);
+  opacity: 0.6;
+  animation: floatUp 6s infinite ease-in-out;
+}
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #ff6b81;
+  border-radius: 50%;
+}
+.heart::before { top: -10px; left: 0; }
+.heart::after { left: 10px; top: 0; }
+
+/* Chiikawa custom placeholders */
+.chiikawa {
+  position: absolute;
+  font-size: 40px;
+  opacity: 0.7;
+  animation: floatUp 8s infinite ease-in-out;
+}
+.chiikawa.c1::before { content: "🐹"; }
+.chiikawa.c2::before { content: "🐱"; }
+
+/* Varying start points, scales, and animation tempos */
+.h1 { left: 15%; animation-duration: 7s; animation-delay: 0s; transform: scale(0.8) rotate(-45deg); }
+.h2 { left: 40%; animation-duration: 5s; animation-delay: 2s; transform: scale(1.1) rotate(-45deg); }
+.h3 { left: 80%; animation-duration: 6s; animation-delay: 1s; transform: scale(0.6) rotate(-45deg); }
+.c1 { left: 10%; animation-duration: 9s; animation-delay: 3s; }
+.c2 { left: 75%; animation-duration: 8s; animation-delay: 0.5s; }
+
+/* The smooth upward floating keyframe sequence */
+@keyframes floatUp {
+  0% {
+    bottom: -50px;
+    margin-left: 0px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  50% {
+    margin-left: 30px;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    bottom: 105vh;
+    margin-left: -20px;
+    opacity: 0;
+  }
+}
+
+/* --- ENVELOPE INTERFACE CORE --- */
+.envelope-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+/* Envelope Wrapper */
+.envelope-wrapper {
+  position: relative;
+  width: 500px;
+  height: 300px;
+}
+
+.envelope {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #d1526d;
+  border-radius: 0 0 10px 10px;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  z-index: 2;
+}
+
+/* --- LETTER CONTENT WITH STATIONARY DESIGN --- */
+.letter {
+  position: absolute;
+  top: 15px;
+  left: 5%;
+  width: 90%;
+  height: 270px;
+  
+  /* Romantic Stationary Styling */
+  background: linear-gradient(135deg, #ffffff 0%, #fff0f5 100%);
+  border: 2px dashed #ffb6c1;
+  border-radius: 12px;
+  padding: 25px;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+  
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s linear; 
+  z-index: 1;
+}
+
+/* Header style inside the letter */
+.letter h3 {
+  margin: 0 0 12px 0;
+  color: #d69ff1;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid #ffe4e1;
+  padding-bottom: 5px;
+}
+
+/* Body message text inside the letter */
+.letter p {
+  color: #4b4b4b;
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 0;
+  text-indent: 15px;
+  text-align: justify;
+}
+
+/* Footer signature line inside the letter */
+.letter-footer {
+  margin-top: 15px;
+  text-align: right;
+  font-size: 12px;
+  font-weight: bold;
+  color: #d69ff1;
+  font-style: italic;
+}
+
+.letter-image {
+  display: block;
+  max-width: 85%;            /* Gives the picture nice margins on the sides */
+  height: auto;
+  margin: 20px auto 10px auto; /* Centers the image and adds vertical spacing */
+  border-radius: 10px;       /* Cute rounded edges matching the layout theme */
+  border: 3px solid #fff0f5;  /* Soft framing border background shadow wrapper */
+  box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+}
+
+/* The top triangle flap */
+.lid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 250px solid transparent;
+  border-right: 250px solid transparent;
+  border-top: 150px solid #f3a3b2;
+  transform-origin: top;
+  transition: transform 0.4s ease-in-out;
+  z-index: 4;
+}
+
+/* The front pocket of the envelope */
+.body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 250px solid #e58296;
+  border-right: 250px solid #e58296;
+  border-bottom: 150px solid #f092a5;
+  border-top: 150px solid transparent;
+  border-radius: 0 0 10px 10px;
+  z-index: 3;
+}
+
+/* Monthsarry Greetings */
+.bottom-text {
+  margin-bottom: 40px;
+  font-size: 24px;
+  color: #2c3e50;
+  font-weight: bold;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  
+  /* Blends an organic color pulse and soft height shift natively without transform jumps */
+  animation: textAlive 3s infinite ease-in-out;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+  opacity: 1;
+}
+
+/* Margin adjustments to stop double loading skips */
+@keyframes textAlive {
+  0% {
+    margin-bottom: 40px;
+    letter-spacing: 0px;
+  }
+  50% {
+    margin-bottom: 46px;
+    color: #ff4757;
+    letter-spacing: 0.5px;
+  }
+  100% {
+    margin-bottom: 40px;
+    letter-spacing: 0px;
+  }
+}
+
+/* --- Quiz Overlay --- */
+.quiz-overlay {
+  position: relative; 
+  margin-top: 25px;   
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  background-color: transparent; 
+  transition: opacity 0.4s ease-in-out;
+}
+
+.quiz-box {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 20px;
+  border: 3px dashed #ffb6c1;
+  box-shadow: 0 10px 30px rgba(255, 107, 129, 0.15);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.quiz-box h2 {
+  color: #ff4757;
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.quiz-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.quiz-btn {
+  padding: 10px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  font-family: sans-serif;
+}
+
+.yes-btn {
+  background-color: #ff6b81;
+  color: white;
+  box-shadow: 0 5px 15px rgba(255, 107, 129, 0.3);
+}
+
+.yes-btn:hover {
+  transform: scale(1.1);
+  background-color: #ff4757;
+}
+
+.no-btn {
+  background-color: #a1a1a1;
+  color: white;
+  position: relative;
+  transition: left 0.1s ease, top 0.1s ease;
+}
+
+/* --- CHIIKAWA STAMP --- */
+.stamp {
+  position: absolute;
+  top: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  
+  /* Setting image file as stamp */
+  background-image: url('Chiikawa-stamp.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* Origin at the top of the frame so it arcs precisely with the flipping lid */
+  transform-origin: 50% -130px;
+  transition: transform 0.4s ease-in-out;
+  z-index: 5;
+}
+
+/* Hover Effects/ Quiz Effects */
+
+/* 1. Open the lid */
+.envelope-container.active:hover .lid {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+/* 2. Envelope grows slightly and fades deeply */
+.envelope-container.active:hover .envelope {
+  transform: scale(1.05);
+  opacity: 0.1;
+}
+
+/* 3. Letter pops out, centers up, and scales to comfortably showcase the beautiful text */
+.envelope-container.active:hover .letter {
+  transform: translateY(-50px) scale(1.6);
+  box-shadow: 0 20px 50px rgba(255, 182, 193, 0.4);
+  z-index: 10;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s linear 0s;
+}
+
+/* 4. Hides the text on hover and glides it gracefully upwards */
+.envelope-container.active:hover .bottom-text {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: none;
+}
+
+/* 5. It flips open perfectly with the lid */
+.envelope-container.active:hover .stamp {
+  transform: translateX(-50%) rotateX(180deg);
+}
