@@ -33,12 +33,10 @@
 
                 <div class="letter">
                     <h3>To My Love,</h3>
-                    <p>Haiii, Loveee!! I know I'm not good at surprise and letters, this letter maybe short but I hope this makes you happy hehe. I miss our little bondings na, lovee, lagi ko naman miss mga ginagawa natin pero mas miss na miss na kita, love. This day, I just want us to be happy and enjoy things na gagawin natin, mwehehehe. I'm happy that we're on 6th months na and sana tumagal pa tayo until we have our own life together. I do really really love you, Mahal ko. I know napapansin mo to but I never called you by your name or nickname since naging friends tayo before, but to be sincere and for you to know na ikaw ang tinutukoy ko sa lahat ng to, Kimberly, you are my everything, ansaya saya ko na ikaw lagi ang kasama ko sa lahat. I know hindi pa tayo nagkikita personally pero everything we do, I always think na katabi kita, kasama kita, hawak hawak kita. I hope this day makes you happy ng sobrang sobra, this is my little surprise letter, hindi pa kasi kita ma surprise na kakatok ako sa inyo then makikita mo ako jan, mwehehehe. Pero yun nga, I always care for you, love, everything you do always have value and it means to me a lot, love. Wag tayo magaaway ngayon ha, love. We enjoy our day together! I love you so muchiieeee muchhh, Love!!</p>
+                    <p>Haiii, Loveee!! I know I'm not good at surprise and letters, this letter maybe short but I hope this makes you happy hehe. I miss our little bondings na, lovee, lagi ko naman miss mga ginagawa natin pero mas miss na miss na kita, love. This day, I just want us to be happy and enjoy things na gagawin natin, mwehehehe. I'm happy that we're on 6th months na and sana tumagal pa tayo until we have our own life together. I do really really love you, Mahal ko. I know napapansin mo to but I never called you by your name or nickname since naging friends tayo before, but to be sincere and for you to know na ikaw ang tinutukoy ko sa lahat ng to, Kimberly, you are my everything, ansaya saya ko na ikaw lagi ang kasama ko sa lahat. I know hindi pa tayo nagkikita personally pero everything we do, I always think na katabi kita, kasama kita, hawak hawak kita. I hope this day makes you happy ng sobrang sobra, this is my little surprise letter, hindi pa kasi kita ma surprise na kakatok ako sa inyo then makikita mo ako jan, mwehehehe. Pero yun nga, I always care for you, love, everything you do always have value and it means to me a lot, love. I'm so proud of you palagi and I'm always here sa tabi mo. Wag tayo magaaway ngayon ha, love. We enjoy our day together! I love you so muchiieeee muchhh, Love!!</p>
                     <div class="letter-footer">Forever Yours ❤️</div>
-                    
-                    <!-- FIXED: Corrected image tag format -->
                     <img src="ourpic.png" alt="Our pic" class="letter-image">
-                </div> <!-- FIXED: Restored missing letter closing tag -->
+                </div> 
             </div>
         </div>
 
@@ -54,13 +52,47 @@
         </div>
     </div>
 
+    <!-- Completely invisible container layer for the background streaming player -->
+    <div id="ytPlayer" style="position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;"></div>
+
     <!-- JavaScript mechanics -->
     <script>
+        // 1. Core script injection engine to fetch and construct the YouTube background framework
+        var tag = document.createElement('script');
+        tag.src = "https://youtube.com";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('ytPlayer', {
+                height: '0',
+                width: '0',
+                videoId: '-6gNHeEofjA', // 👈 FIXED: Direct unique Video ID string for "Tahanan"
+                playerVars: {
+                    'autoplay': 0,
+                    'loop': 1,
+                    'playlist': '-6gNHeEofjA', // 👈 FIXED: Matches to loop the audio stream seamlessly 
+                    'controls': 0,
+                    'disablekb': 1,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Set starting background volume scale (0 to 100)
+            player.setVolume(80); 
+        }
+
         function dodgeNo() {
             const noBtn = document.getElementById('noBtn');
             const randomX = Math.floor(Math.random() * (window.innerWidth - 160));
             const randomY = Math.floor(Math.random() * (window.innerHeight - 80));
-            
+    
             noBtn.style.position = 'fixed';
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
@@ -69,7 +101,12 @@
         function selectYes() {
             const overlay = document.getElementById('quizOverlay');
             const container = document.getElementById('envelopeContainer');
-            
+    
+            // 2. Fires up the hidden YouTube audio track stream right as she taps "Yes"
+            if (player && typeof player.playVideo === 'function') {
+                player.playVideo();
+            }
+    
             overlay.style.opacity = '0';
             overlay.style.pointerEvents = 'none';
             container.classList.add('active');
